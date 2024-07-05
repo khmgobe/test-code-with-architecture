@@ -6,9 +6,11 @@ import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.dto.UserCreate;
 import com.example.demo.user.domain.dto.UserUpdate;
 import com.example.demo.user.infrastructure.UserEntity;
-import com.example.demo.user.infrastructure.UserRepository;
+
 import java.time.Clock;
 import java.util.UUID;
+
+import com.example.demo.user.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -40,7 +42,7 @@ public class UserService {
         userEntity.setAddress(userCreate.getAddress());
         userEntity.setStatus(UserStatus.PENDING);
         userEntity.setCertificationCode(UUID.randomUUID().toString());
-        userEntity = userRepository.save(userEntity);
+        userRepository.save(userEntity);
         String certificationUrl = generateCertificationUrl(userEntity);
         sendCertificationEmail(userCreate.getEmail(), certificationUrl);
         return userEntity;
