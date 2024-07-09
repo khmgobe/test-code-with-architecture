@@ -12,7 +12,7 @@ public class UserCreate {
     private final String address;
 
     @Builder
-    public UserCreate(
+    private UserCreate(
         @JsonProperty("email") String email,
         @JsonProperty("nickname") String nickname,
         @JsonProperty("address") String address) {
@@ -20,4 +20,15 @@ public class UserCreate {
         this.nickname = nickname;
         this.address = address;
     }
+
+    public static UserCreate of(String email, String nickname, String address) {
+
+        return UserCreate
+                .builder()
+                .email(email)
+                .nickname(nickname)
+                .address(address)
+                .build();
+    }
+
 }

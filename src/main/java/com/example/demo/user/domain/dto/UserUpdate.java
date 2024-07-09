@@ -11,10 +11,18 @@ public class UserUpdate {
     private final String address;
 
     @Builder
-    public UserUpdate(
+    private UserUpdate(
         @JsonProperty("nickname") String nickname,
         @JsonProperty("address") String address) {
         this.nickname = nickname;
         this.address = address;
+    }
+
+    public static UserUpdate of(String nickname, String address) {
+        return UserUpdate
+                .builder()
+                .nickname(nickname)
+                .address(address)
+                .build();
     }
 }

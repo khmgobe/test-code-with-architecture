@@ -7,14 +7,23 @@ import lombok.Getter;
 @Getter
 public class PostCreate {
 
-    private final long writerId;
+    private final Long writerId;
     private final String content;
 
     @Builder
-    public PostCreate(
+    private PostCreate(
         @JsonProperty("writerId") long writerId,
         @JsonProperty("content") String content) {
         this.writerId = writerId;
         this.content = content;
+    }
+
+
+    public static PostCreate of(Long writerId, String content) {
+       return PostCreate
+                .builder()
+                .writerId(writerId)
+                .content(content)
+                .build();
     }
 }

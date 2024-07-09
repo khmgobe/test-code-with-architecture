@@ -1,5 +1,6 @@
 package com.example.demo.user.infrastructure;
 
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,13 +10,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-@Setter
 @Entity
 @Table(name = "users")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
     @Id
@@ -40,4 +40,42 @@ public class UserEntity {
 
     @Column(name = "last_login_at")
     private Long lastLoginAt;
+
+
+    @Builder
+    private UserEntity(Long id, String email, String nickname, String address, String certificationCode, UserStatus status, Long lastLoginAt) {
+        this.id = id;
+        this.email = email;
+        this.nickname = nickname;
+        this.address = address;
+        this.certificationCode = certificationCode;
+        this.status = status;
+        this.lastLoginAt = lastLoginAt;
+    }
+
+    public static UserEntity fromModel(User user) {
+        return UserEntity
+                .builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .address(user.getAddress())
+                .certificationCode(user.getCertificationCode())
+                .status(user.getStatus())
+                .lastLoginAt(user.getLastLoginAt())
+                .build();
+    }
+
+    public User toModel() {
+        return User
+                .builder()
+                .id(id)
+                .email(email)
+                .nickname(nickname)
+                .address(address)
+                .certificationCode(certificationCode)
+                .status(status)
+                .lastLoginAt(lastLoginAt)
+                .build();
+    }
 }
